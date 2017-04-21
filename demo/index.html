@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+    <title>jQuery File Style</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&subset=cyrillic" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <link href="style.css" rel="stylesheet" type="text/css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+    <link href="../jquery.filestyle.css" rel="stylesheet">
+    <script src="../jquery.filestyle.js"></script>
+
+    <script>
+        $(function() {
+            // Default
+            $('input[type=file]', '#default').filestyle();
+
+            // Multiple
+            $('input[type=file]', '#multiple').filestyle({
+                multiple: true
+            });
+
+            // Multiple
+            $('input[type=file]', '#custom-labels').filestyle({
+                browseText: 'Обзор',
+                placeholderText: 'Выберите файл'
+            });
+
+            // Custom HTML labels
+            $('input[type=file]', '#html-labels').filestyle({
+                browseText: '<i class="material-icons">search</i> Обзор',
+                removeText: '<i class="material-icons">delete</i>'
+            });
+
+            // Локализация
+            $('input[type=file]', '#localization').filestyle({
+                lang: 'sweden',
+                languages: {
+                    'sweden': {
+                        browseText: 'Välj fil',
+                        placeholderText: 'Ingen fil vald',
+                        removeText: 'Avlägsna'
+                    }
+                }
+            });
+
+            // Стилизация
+            $('input[type=file]', '#custom-styles').filestyle({
+                wrapClass: 'accent'
+            });
+
+            // Уничтожение
+            $('input[type=file]', '#destroy').filestyle('destroy');
+        });
+    </script>
+
+    <style>
+        .file-style-wrapper .file-item .file-input .file-button-browse .material-icons {
+            vertical-align: text-bottom;
+            font-size: 16px;
+        }
+
+        .file-style-wrapper.accent .file-item .file-input .file-button-browse {
+            background-color: #ff4081;
+        }
+    </style>
+</head>
+<body>
+<div class="wrapper outer-block">
+    <div class="header-wrapper">
+        <div class="header">
+            <div class="title">jQuery File Style</div>
+        </div>
+    </div>
+    <div class="content">
+
+        <div class="demo-item" id="default">
+            <h2>По умолчанию</h2>
+            <input type="file" name="attachment">
+<div class="code-block">
+<pre>
+<span class="javascript">
+<span class="commentary">// javascript</span>
+<span class="variable">$</span>(<span class="selector">'input[type=file]'</span>).<span class="method">filestyle()</span>;
+</span>
+</pre>
+</div>
+        </div>
+
+        <div class="demo-item" id="multiple">
+            <h2>Множественные файлы</h2>
+            <ul>
+                <li>Параметр <span class="bold">multiple</span>: <span class="possible-values">true / false</span></li>
+            </ul>
+            <input type="file" name="attachment[]">
+<div class="code-block">
+<pre>
+<span class="javascript">
+<span class="commentary">// javascript</span>
+<span class="variable">$</span>(<span class="selector">'input[type=file]'</span>).<span class="method">filestyle(</span>{
+    multiple: <span class="boolean">true</span>
+}<span class="method">)</span>;
+</span>
+<span class="html">
+<span class="commentary">&lt;!-- или data-атрибут --&gt;</span>
+<span class="tag">&lt;input</span> type="<span class="attr-value">file</span>" name="<span class="attr-value">ATTACHMENT[]</span>" data-multiple="<span class="attr-value">true</span>"<span class="tag">&gt</span>
+</span>
+</pre>
+</div>
+        </div>
+
+        <div class="demo-item" id="custom-labels">
+            <h2>Собственные надписи</h2>
+            <ul>
+                <li>Параметр <span class="bold">browseText</span>: <span class="possible-values">'текст'</span></li>
+                <li>Параметр <span class="bold">placeholderText</span>: <span class="possible-values">'текст'</span></li>
+                <li>Параметр <span class="bold">removeText</span>: <span class="possible-values">'текст'</span></li>
+                <li>&nbsp;</li>
+                <li>Атрибут <span class="bold">data-browse</span></li>
+                <li>Атрибут <span class="bold">data-placeholder</span></li>
+                <li>Атрибут <span class="bold">data-remove</span></li>
+            </ul>
+            <input type="file">
+<div class="code-block">
+<pre>
+<span class="javascript">
+<span class="commentary">// javascript</span>
+<span class="variable">$</span>(<span class="selector">'input[type=file]'</span>).<span class="method">filestyle(</span>{
+    browseText: <span class="option-value">'Обзор'</span>,
+    placeholderText: <span class="option-value">'Выберите файл'</span>
+}<span class="method">)</span>;
+</span>
+<span class="html">
+<span class="commentary">&lt;!-- или data-атрибуты --&gt;</span>
+<span class="tag">&lt;input</span> type="<span class="attr-value">file</span>" name="<span class="attr-value">ATTACHMENT</span>" data-browse="<span class="attr-value">Обзор</span>" data-placeholder="<span class="attr-value">Выберите файл</span>"<span class="tag">&gt</span>
+</span>
+</pre>
+            </div>
+        </div>
+
+        <div class="demo-item" id="html-labels">
+            <h2>Собственные надписи с HTML</h2>
+            <ul>
+                <li>Параметр <span class="bold">browseText</span>: <span class="possible-values">'текст / html'</span></li>
+                <li>Параметр <span class="bold">placeholderText</span>: <span class="possible-values">'текст / html'</span></li>
+                <li>Параметр <span class="bold">removeText</span>: <span class="possible-values">'текст / html'</span></li>
+                <li>&nbsp;</li>
+                <li>Атрибут <span class="bold">data-browse</span></li>
+                <li>Атрибут <span class="bold">data-placeholder</span></li>
+                <li>Атрибут <span class="bold">data-remove</span></li>
+            </ul>
+            <input type="file" name="attachment">
+<div class="code-block">
+<pre>
+<span class="javascript">
+<span class="commentary">// javascript</span>
+<span class="variable">$</span>(<span class="selector">'input[type=file]'</span>).<span class="method">filestyle(</span>{
+    browseText: <span class="option-value">'&lt;i class="material-icons"&gt;search&lt;/i&gt; Обзор'</span>,
+    removeText: <span class="option-value">'&lt;i class="material-icons"&gt;delete&lt;/i&gt;'</span>
+}<span class="method">)</span>;
+</span>
+<span class="html">
+<span class="commentary">&lt;!-- или data-атрибуты --&gt;</span>
+<span class="tag">&lt;input</span> type="<span class="attr-value">file</span>" name="<span class="attr-value">ATTACHMENT</span>"
+    data-browse="<span class="attr-value">&lt;i class='material-icons'&gt;search&lt;/i&gt; Обзор</span>"
+    data-remove="<span class="attr-value">&lt;i class='material-icons'&gt;delete&lt;/i&gt;</span>"<span class="tag">&gt</span>
+</span>
+</pre>
+</div>
+        </div>
+
+        <div class="demo-item" id="localization">
+            <h2>Локализация</h2>
+            <ul>
+                <li>Параметр <span class="bold">lang</span>: <span class="possible-values">'id языка из объекта languages'</span></li>
+                <li>Параметр <span class="bold">languages</span>: <span class="possible-values">{ 'id языка': { ... } }</span></li>
+            </ul>
+            <p>Значение по умолчанию: <span class="bold">'ru'</span></p>
+            <p>Английская локализация входит в состав плагина (<span class="bold">lang: 'en'</span>)</p>
+            <br>
+            <input type="file" name="attachment">
+<div class="code-block">
+<pre>
+<span class="javascript">
+<span class="commentary">// javascript</span>
+<span class="variable">$</span>(<span class="selector">'input[type=file]'</span>).<span class="method">filestyle(</span>{
+    lang: <span class="option-value">'sweden'</span>
+    languages: {
+        <span class="option-value">'sweden'</span>: {
+            browseText: <span class="option-value">'Välj fil'</span>,
+            placeholderText: <span class="option-value">'Ingen fil vald'</span>,
+            removeText: <span class="option-value">'Avlägsna'</span>
+        }
+    }
+}<span class="method">)</span>;
+</span>
+</pre>
+</div>
+        </div>
+
+        <div class="demo-item" id="custom-styles">
+            <h2>Дополнительные классы</h2>
+            <ul>
+                <li>Параметр <span class="bold">wrapClass</span>: <span class="possible-values">'имя класса'</span></li>
+                <li>&nbsp;</li>
+                <li>Атрибут <span class="bold">class</span></li>
+            </ul>
+            <input type="file" name="attachment">
+<div class="code-block">
+<pre>
+<span class="javascript">
+<span class="commentary">// javascript</span>
+<span class="variable">$</span>(<span class="selector">'input[type=file]'</span>).<span class="method">filestyle(</span>{
+    wrapClass: <span class="option-value">'accent'</span>
+}<span class="method">)</span>;
+</span>
+<span class="html">
+<span class="commentary">&lt;!-- или атрибут class --&gt;</span>
+<span class="tag">&lt;input</span> type="<span class="attr-value">file</span>" name="<span class="attr-value">ATTACHMENT</span>" class="<span class="attr-value">accent</span>"<span class="tag">&gt</span>
+</span>
+</pre>
+</div>
+        </div>
+
+        <div class="demo-item" id="destroy">
+            <h2>Уничтожение плагина</h2>
+            <ul>
+                <li>Параметр <span class="bold">destroy</span></li>
+            </ul>
+            <input type="file" name="attachment">
+            <div class="code-block">
+<pre>
+<span class="javascript">
+<span class="commentary">// javascript</span>
+<span class="variable">$</span>(<span class="selector">'input[type=file]'</span>).<span class="method">filestyle(<span class="option-value">'destroy'</span>)</span>;
+</span>
+</pre>
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>
