@@ -1,5 +1,5 @@
 # jQuery File Style
-> 1.0.0
+> 1.0.1
 
 jQuery-плагин для стилизации элемента ```<input type="file">```
 
@@ -36,9 +36,16 @@ $('input[type=file]').filestyle();
 # Настройка
 
 ### Множественная загрузка
+#### Стандартное поведение
+> Атрибут **multiple**
+```html
+<input type="file" name="ATTACHMENT[]" multiple>
+```
+
+#### По-отдельности
 > Параметр **multiple**
 
-Для каждого файла создаётся отдельный input, обёрнутый в ```<div class="file-item">```
+Один input — один файл, после выбора файла создаётся отдельный input, обёрнутый в ```<div class="file-item">```
 ```javascript
 $('input[type=file]').filestyle({
     multiple: true
@@ -55,16 +62,19 @@ $('input[type=file]').filestyle({
 > Параметр **placeholderText**
 >
 > Параметр **removeText**
+>
+> Параметр **multipleText**
 
 ```javascript
 $('input[type=file]').filestyle({
     browseText: 'Обзор',
-    placeholderText: 'Выберите файл'
+    placeholderText: 'Выберите файл',
+    multipleText: 'Выбрано файлов: %s' // символ '%s' заменяется на количество выбранных файлов
 });
 ```
 ```html
 <!-- или data-атрибуты -->
-<input type="file" name="ATTACHMENT" data-browse="Обзор" data-placeholder="Выберите файл">
+<input type="file" name="ATTACHMENT[]" data-browse="Обзор" data-placeholder="Выберите файл" data-multiple-text="Выбрано файлов: %s" multiple>
 ```
 
 ### Собственные надписи с HTML
@@ -73,6 +83,8 @@ $('input[type=file]').filestyle({
 > Параметр **placeholderText**
 >
 > Параметр **removeText**
+>
+> Параметр **multipleText**
 
 ```javascript
 $('input[type=file]').filestyle({
@@ -100,9 +112,9 @@ $('input[type=file]').filestyle({
     lang: 'sweden'
     languages: {
         'sweden': {
-            browseText: 'Välj fil',
+            browseText: 'V?lj fil',
             placeholderText: 'Ingen fil vald',
-            removeText: 'Avlägsna'
+            removeText: 'Avl?gsna'
         }
     }
 });
