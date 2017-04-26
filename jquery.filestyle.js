@@ -1,11 +1,11 @@
 /*
- * jQuery File Style v1.0.0
+ * jQuery File Style v1.0.1
  * https://github.com/AlligatorAlex/jquery-filestyle
  *
  * Copyright 2017 Pixel Plus
  *
- * April 21 2017
-*/
+ * April 26 2017
+ */
 ;(function($) {
     'use strict';
 
@@ -17,11 +17,13 @@
     var defaults = {
         browseText: 'Выберите файл',
         placeholderText: 'Файл не выбран',
+        multipleText: 'Число файлов: %s',
         removeText: 'Удалить',
         lang: 'ru',
         languages: {
             'en': {
                 placeholderText: 'No file chosen',
+                multipleText: '%s files',
                 browseText: 'Choose File',
                 removeText: 'Remove'
             }
@@ -46,6 +48,23 @@
 
         var element = $(self.element);
         var elementClone = element.clone();
+
+        // Labels from data-attributes
+        if (typeof element.data('browse') !== 'undefined') {
+            self.options.browseText = element.data('browse');
+        }
+
+        if (typeof element.data('placeholder') !== 'undefined') {
+            self.options.placeholderText = element.data('placeholder');
+        }
+
+        if (typeof element.data('remove') !== 'undefined') {
+            self.options.removeText = element.data('remove');
+        }
+
+        if (typeof element.data('multiple-text') !== 'undefined') {
+            self.options.multipleText = element.data('multiple-text');
+        }
 
         // Hide original input element
         element.css({
@@ -92,15 +111,21 @@
         element.before(fileBrowseButton);
         element.before(fileName);
 
+        // Fake multiple
         var isMultiple = (typeof self.options.multiple !== 'undefined') ? self.options.multiple : element.data('multiple');
 
         // File selecting / changing
         element.on('change.filestyle', function() {
 
-            var selectedFileName = element.val().replace(/.+[\\\/]/, '');
+            var selectedFileName = '',
+                filesCount = 0;
+
+            for (var i = 0; i < element[0].files.length; i++) {
+                filesCount++;
+            }
 
             // If no file selected
-            if (selectedFileName === '') {
+            if (filesCount === 0) {
                 selectedFileName = self.options.placeholderText;
                 element.closest('.file-item').find('.file-button-remove').remove();
             } else {
@@ -109,7 +134,14 @@
             }
 
             // Pasting file name
-            fileName.html(selectedFileName);
+            if (filesCount > 1) {
+                // If more than 1 file selected, paste files count
+                fileName.html(self.options.multipleText.replace(/%s/, filesCount.toString()));
+            } else {
+                // Otherwise paste file name
+                selectedFileName = element.val().replace(/.+[\\\/]/, '');
+                fileName.html(selectedFileName);
+            }
 
             if (isMultiple === true) {
                 // Prevent duplication of empty file inputs

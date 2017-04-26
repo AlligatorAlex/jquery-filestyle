@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
-    <title>jQuery File Style</title>
+    <title>jQuery-плагин File Style</title>
 
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&subset=cyrillic" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -20,18 +20,18 @@
             // Default
             $('input[type=file]', '#default').filestyle();
 
-            // Multiple
-            $('input[type=file]', '#multiple').filestyle({
+            // Multiple fake
+            $('input[type=file]', '#multiple-fake').filestyle({
                 multiple: true
             });
 
-            // Multiple
-            $('input[type=file]', '#custom-labels').filestyle({
-                browseText: 'Обзор',
-                placeholderText: 'Выберите файл'
-            });
+            // Multiple real
+            $('input[type=file]', '#multiple-real').filestyle();
 
-            // Custom HTML labels
+            // Собственные надписи
+            $('input[type=file]', '#custom-labels').filestyle();
+
+            // Собственные надписи с HTML
             $('input[type=file]', '#html-labels').filestyle({
                 browseText: '<i class="material-icons">search</i> Обзор',
                 removeText: '<i class="material-icons">delete</i>'
@@ -74,9 +74,10 @@
 <div class="wrapper outer-block">
     <div class="header-wrapper">
         <div class="header">
-            <div class="title">jQuery File Style</div>
+            <div class="title">jQuery-плагин File Style</div>
         </div>
     </div>
+    <div class="ribbon"></div>
     <div class="content">
 
         <div class="demo-item" id="default">
@@ -92,11 +93,13 @@
 </div>
         </div>
 
-        <div class="demo-item" id="multiple">
-            <h2>Множественные файлы</h2>
+        <div class="demo-item" id="multiple-fake">
+            <h2>Множественные файлы (по одному)</h2>
             <ul>
                 <li>Параметр <span class="bold">multiple</span>: <span class="possible-values">true / false</span></li>
             </ul>
+            <p>В данном режиме после выбора одного файла создаётся дополнительное поле, позволяющее выбрать следующий файл</p>
+            <p>Каждый файл можно удалить или заменить по отдельности</p>
             <input type="file" name="attachment[]">
 <div class="code-block">
 <pre>
@@ -114,30 +117,53 @@
 </div>
         </div>
 
+        <div class="demo-item" id="multiple-real">
+            <h2>Множественные файлы (сразу несколько)</h2>
+            <ul>
+                <li>Атрибут <span class="bold">multiple</span></li>
+            </ul>
+            <p>Стандартное поведение поля для ввода с множественной загрузкой, при выборе нескольких файлов выводится их количество</p>
+            <p>Возможно сочетание с параметром <span class="bold">multiple: true</span></p>
+            <input type="file" name="attachment[]" multiple>
+            <div class="code-block">
+<pre>
+<span class="html">
+<span class="tag">&lt;input</span> type="<span class="attr-value">file</span>" name="<span class="attr-value">ATTACHMENT[]</span>" multiple<span class="tag">&gt</span>
+</span>
+</pre>
+            </div>
+        </div>
+
         <div class="demo-item" id="custom-labels">
             <h2>Собственные надписи</h2>
             <ul>
-                <li>Параметр <span class="bold">browseText</span>: <span class="possible-values">'текст'</span></li>
-                <li>Параметр <span class="bold">placeholderText</span>: <span class="possible-values">'текст'</span></li>
-                <li>Параметр <span class="bold">removeText</span>: <span class="possible-values">'текст'</span></li>
+                <li>Параметр <span class="bold">browseText</span>: <span class="possible-values">'текст / html'</span></li>
+                <li>Параметр <span class="bold">placeholderText</span>: <span class="possible-values">'текст / html'</span></li>
+                <li>Параметр <span class="bold">removeText</span>: <span class="possible-values">'текст / html'</span></li>
+                <li>Параметр <span class="bold">multipleText</span>: <span class="possible-values">'текст / html'</span></li>
                 <li>&nbsp;</li>
                 <li>Атрибут <span class="bold">data-browse</span></li>
                 <li>Атрибут <span class="bold">data-placeholder</span></li>
                 <li>Атрибут <span class="bold">data-remove</span></li>
+                <li>Атрибут <span class="bold">data-multiple-text</span></li>
             </ul>
-            <input type="file">
+            <input type="file" name="attachment[]" data-placeholder="Выберите файл" data-browse="Обзор" data-multiple-text="Выбрано файлов: %s" multiple>
 <div class="code-block">
 <pre>
 <span class="javascript">
 <span class="commentary">// javascript</span>
 <span class="variable">$</span>(<span class="selector">'input[type=file]'</span>).<span class="method">filestyle(</span>{
     browseText: <span class="option-value">'Обзор'</span>,
-    placeholderText: <span class="option-value">'Выберите файл'</span>
+    placeholderText: <span class="option-value">'Выберите файл'</span>,
+    multipleText: <span class="option-value">'Выбрано файлов: %s'</span> <span class="commentary">// символ '%s' заменяется на количество выбранных файлов</span>
 }<span class="method">)</span>;
 </span>
 <span class="html">
 <span class="commentary">&lt;!-- или data-атрибуты --&gt;</span>
-<span class="tag">&lt;input</span> type="<span class="attr-value">file</span>" name="<span class="attr-value">ATTACHMENT</span>" data-browse="<span class="attr-value">Обзор</span>" data-placeholder="<span class="attr-value">Выберите файл</span>"<span class="tag">&gt</span>
+<span class="tag">&lt;input</span> type="<span class="attr-value">file</span>" name="<span class="attr-value">ATTACHMENT[]</span>"
+    data-browse="<span class="attr-value">Обзор</span>"
+    data-placeholder="<span class="attr-value">Выберите файл</span>"
+    data-multiple-text="<span class="attr-value">Выбрано файлов: %s</span>"<span class="tag">&gt</span>
 </span>
 </pre>
             </div>
@@ -149,10 +175,12 @@
                 <li>Параметр <span class="bold">browseText</span>: <span class="possible-values">'текст / html'</span></li>
                 <li>Параметр <span class="bold">placeholderText</span>: <span class="possible-values">'текст / html'</span></li>
                 <li>Параметр <span class="bold">removeText</span>: <span class="possible-values">'текст / html'</span></li>
+                <li>Параметр <span class="bold">multipleText</span>: <span class="possible-values">'текст / html'</span></li>
                 <li>&nbsp;</li>
                 <li>Атрибут <span class="bold">data-browse</span></li>
                 <li>Атрибут <span class="bold">data-placeholder</span></li>
                 <li>Атрибут <span class="bold">data-remove</span></li>
+                <li>Атрибут <span class="bold">data-multiple-text</span></li>
             </ul>
             <input type="file" name="attachment">
 <div class="code-block">
@@ -182,7 +210,6 @@
             </ul>
             <p>Значение по умолчанию: <span class="bold">'ru'</span></p>
             <p>Английская локализация входит в состав плагина (<span class="bold">lang: 'en'</span>)</p>
-            <br>
             <input type="file" name="attachment">
 <div class="code-block">
 <pre>
@@ -228,7 +255,7 @@
         </div>
 
         <div class="demo-item" id="destroy">
-            <h2>Уничтожение плагина</h2>
+            <h2>Уничтожение</h2>
             <ul>
                 <li>Параметр <span class="bold">destroy</span></li>
             </ul>
