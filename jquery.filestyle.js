@@ -1,10 +1,10 @@
 /*
- * jQuery File Style v1.0.1
+ * jQuery File Style v1.0.2
  * https://github.com/AlligatorAlex/jquery-filestyle
  *
  * Copyright 2017 Pixel Plus
  *
- * April 26 2017
+ * May 2 2017
  */
 ;(function($) {
     'use strict';
@@ -87,7 +87,7 @@
                 'overflow': 'hidden'
             });
 
-        var fileName = $('<div class="file-name">')
+        var fileName = $('<div class="file-name placeholder">')
             .html(self.options.placeholderText);
 
         var fileBrowseButton = $('<div class="file-button-browse">')
@@ -124,24 +124,33 @@
                 filesCount++;
             }
 
-            // If no file selected
             if (filesCount === 0) {
+                // If no file selected
                 selectedFileName = self.options.placeholderText;
-                element.closest('.file-item').find('.file-button-remove').remove();
+            } else if (filesCount === 1) {
+                // If only one file selected, paste files count
+                selectedFileName = element.val().replace(/.+[\\\/]/, '');
+            } else if (filesCount > 1) {
+                // If more than one file selected, paste files count
+                selectedFileName = self.options.multipleText.replace(/%s/, filesCount.toString())
             } else {
-                // Pasting remove button
-                element.closest('.file-item').removeClass('file-empty').append(fileRemoveButton);
+                selectedFileName = self.options.placeholderText;
             }
 
-            // Pasting file name
-            if (filesCount > 1) {
-                // If more than 1 file selected, paste files count
-                fileName.html(self.options.multipleText.replace(/%s/, filesCount.toString()));
+            if (filesCount > 0) {
+                // Remove placeholder class
+                fileName.removeClass('placeholder');
+                // Paste remove button
+                element.closest('.file-item').removeClass('file-empty').append(fileRemoveButton);
             } else {
-                // Otherwise paste file name
-                selectedFileName = element.val().replace(/.+[\\\/]/, '');
-                fileName.html(selectedFileName);
+                // Add placeholder class
+                fileName.addClass('placeholder');
+                // Delete remove button
+                element.closest('.file-item').find('.file-button-remove').remove();
             }
+
+            // Pasting file name / files count / placeholder text
+            fileName.html(selectedFileName);
 
             if (isMultiple === true) {
                 // Prevent duplication of empty file inputs

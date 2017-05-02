@@ -1,5 +1,5 @@
 # jQuery File Style
-> 1.0.1
+> 1.0.2
 
 jQuery-плагин для стилизации элемента ```<input type="file">```
 
